@@ -1,0 +1,18 @@
+# dependencies
+node_modules
+
+# environment variables
+.env
+.env.*
+
+# build outputs
+/frontend/dist
+/frontend/dist-ssr
+
+# logs
+*.log
+
+# editor and OS files
+.DS_Store
+.vscode
+.idea
