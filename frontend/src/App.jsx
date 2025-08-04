@@ -1,60 +1,59 @@
-// App.jsx with improvements
+// App.jsx with improvements and routing
 import { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import TodoInput from "./components/TodoInput";
 import TodoItem from "./components/TodoItem";
 import Celebration from "./components/Celebration";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Header from "./components/Header";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { fetchTasks, createTask, updateTask, toggleTaskCompletion, deleteTask } from "./services/api";
+import { useAuth } from "./contexts/AuthContext";
+import { useTheme } from "./contexts/ThemeContext";
 import "./App.css";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
-  const [darkMode, setDarkMode] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showCelebration, setShowCelebration] = useState(false);
+  
+  const { currentUser } = useAuth();
+  const { darkMode } = useTheme();
 
-  // Load tasks from the backend on component mount
-  useEffect(() => {
-    const loadTasks = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchTasks();
-        setTodos(data);
-        setError(null);
-      } catch (err) {
-        console.error('Failed to fetch tasks:', err);
-        setError('Failed to load tasks. Please try again later.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    loadTasks();
-  }, []);
-
-  // Load dark mode preference from localStorage
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem("darkMode") === "false" ? false : true;
-    setDarkMode(savedDarkMode);
-    if (savedDarkMode) {
-      document.body.classList.add("dark-mode");
+  // Protected component that redirects to login if not authenticated
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/login" replace />;
     }
-  }, []);
+    return children;
+  };
 
-  // Save dark mode preference to localStorage
+  // Load tasks from the backend when user is logged in
   useEffect(() => {
-    localStorage.setItem("darkMode", darkMode);
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
+    if (currentUser) {
+      const loadTasks = async () => {
+        try {
+          setIsLoading(true);
+          const data = await fetchTasks();
+          setTodos(data);
+          setError(null);
+        } catch (err) {
+          console.error('Failed to fetch tasks:', err);
+          setError('Failed to load tasks. Please try again later.');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      loadTasks();
     }
-  }, [darkMode]);
+  }, [currentUser]);
 
   const addTodo = async (text, priority) => {
     if (text.trim() === "") return;
@@ -77,7 +76,6 @@ function App() {
       const todoToUpdate = todos.find(todo => todo._id === id);
       if (!todoToUpdate) return;
 
-      // Only proceed with API call if we're changing the status
       setIsLoading(true);
       const updatedTodo = await toggleTaskCompletion(id, !todoToUpdate.completed);
       
@@ -90,7 +88,6 @@ function App() {
         })
       );
       
-      // Only show celebration when a task is being completed (not when unchecking)
       if (!todoToUpdate.completed && updatedTodo.completed) {
         setShowCelebration(true);
       }
@@ -156,10 +153,6 @@ function App() {
     setEditingId(null);
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   const priorityOrder = { high: 0, medium: 1, low: 2 };
 
   const filteredTodos = todos
@@ -193,18 +186,10 @@ function App() {
     return null;
   };
 
-  return (
+  // Todo app main component
+  const TodoApp = () => (
     <div className={`app ${darkMode ? "dark-mode" : ""}`}>
-      <div className="app-header">
-        <h1>To-Do List 📝</h1>
-        <button 
-          className="theme-toggle" 
-          onClick={toggleDarkMode}
-          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-        >
-          {darkMode ? <FaSun /> : <FaMoon />}
-        </button>
-      </div>
+      <Header />
       
       <TodoInput onAdd={addTodo} darkMode={darkMode} />
 
@@ -272,7 +257,7 @@ function App() {
                 key={todo._id}
                 todo={{
                   ...todo,
-                  id: todo._id // Ensure the id property is available for TodoItem
+                  id: todo._id
                 }}
                 onToggle={toggleComplete}
                 onDelete={deleteTodoItem}
@@ -302,6 +287,22 @@ function App() {
         onComplete={handleCelebrationComplete} 
       />
     </div>
+  );
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route 
+        path="/" 
+        element={
+          <ProtectedRoute>
+            <TodoApp />
+          </ProtectedRoute>
+        } 
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

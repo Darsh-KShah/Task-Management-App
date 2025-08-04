@@ -2,6 +2,20 @@ import axios from 'axios';
 
 const API_URL = '/api/tasks';
 
+// Setup axios interceptor for token handling
+axios.interceptors.request.use(
+  (config) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.token) {
+      config.headers.Authorization = `Bearer ${user.token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const fetchTasks = async () => {
   try {
     const response = await axios.get(API_URL);
@@ -48,6 +62,39 @@ export const deleteTask = async (id) => {
     return response.data;
   } catch (error) {
     console.error('Error deleting task:', error);
+    throw error;
+  }
+};
+
+// Auth related API calls
+const AUTH_URL = '/api/users';
+
+export const registerUser = async (userData) => {
+  try {
+    const response = await axios.post(`${AUTH_URL}/register`, userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error registering user:', error);
+    throw error;
+  }
+};
+
+export const loginUser = async (credentials) => {
+  try {
+    const response = await axios.post(`${AUTH_URL}/login`, credentials);
+    return response.data;
+  } catch (error) {
+    console.error('Error logging in:', error);
+    throw error;
+  }
+};
+
+export const getUserProfile = async () => {
+  try {
+    const response = await axios.get(`${AUTH_URL}/me`);
+    return response.data;
+  } catch (error) {
+    console.error('Error getting user profile:', error);
     throw error;
   }
 };

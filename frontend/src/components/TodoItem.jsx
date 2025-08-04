@@ -44,7 +44,10 @@ function TodoItem({
     }
   };
 
-  const completionAnimation = {
+  const itemVariants = {
+    initial: { opacity: 0, y: -10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, x: -300, transition: { duration: 0.5 } },
     incomplete: { opacity: 1 },
     complete: { 
       opacity: 0.7,
@@ -55,22 +58,17 @@ function TodoItem({
   return (
     <motion.li
       className={`todo-item ${todo.completed ? "completed" : ""} ${darkMode ? "dark" : ""}`}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ 
-        opacity: 0, 
-        x: -300, 
-        transition: { duration: 0.5 } 
-      }}
+      variants={itemVariants}
+      initial="initial"
+      animate={todo.completed ? "complete" : "animate"}
+      exit="exit"
       layout
       transition={{ 
         type: "spring", 
         stiffness: 500, 
         damping: 30,
-        layout: { duration: 0.3 }
+        layout: { duration: 0.1 }
       }}
-      variants={completionAnimation}
-      animate={todo.completed ? "complete" : "incomplete"}
     >
       {isEditing ? (
         // Edit mode

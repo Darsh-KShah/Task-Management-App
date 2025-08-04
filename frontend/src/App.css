@@ -363,22 +363,51 @@ input:focus,
 }
 
 .todo-text {
-  color: #2f3640; /* Ensure text is visible in light mode */
+  color: #2f3640;
   margin-left: 10px;
   transition: all 0.3s ease;
+  position: relative; /* Ensure this is set for proper strikethrough positioning */
+  display: inline-block; /* Add this to contain the strikethrough */
 }
 
 .dark-mode .todo-text {
-  color: #ffffff; /* Brighter text in dark mode */
+  color: #ffffff;
 }
 
 .todo-item.completed .todo-text {
-  text-decoration: line-through;
+  text-decoration: line-through; /* Add basic line-through for fallback */
   color: #9ea7ad;
 }
 
 .dark-mode .todo-item.completed .todo-text {
-  color: #95a5a6; /* Lighter completed text color in dark mode */
+  color: #95a5a6;
+}
+
+/* Animation for completed tasks - adjust to only strike through text */
+@keyframes strike-through {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.completed .todo-text::after {
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #95a5a6;
+  animation: strike-through 0.3s ease-in-out forwards;
+  z-index: 1; /* Ensure the line appears above the text */
+}
+
+.dark-mode .completed .todo-text::after {
+  background: #7f8c8d;
 }
 
 .right-actions {
@@ -547,32 +576,6 @@ input:focus,
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Animation for completed tasks */
-@keyframes strike-through {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-.completed .todo-text::after {
-  content: ' ';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #95a5a6;
-  animation: strike-through 0.3s ease-in-out forwards;
-}
-
-.dark-mode .completed .todo-text::after {
-  background: #7f8c8d;
-}
-
 /* Custom scrollbar */
 .todo-list::-webkit-scrollbar {
   width: 8px;
@@ -602,4 +605,223 @@ input:focus,
 
 .dark-mode .todo-list::-webkit-scrollbar-thumb:hover {
   background: #7f8c8d;
+}
+
+/* Authentication Styles */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.auth-form-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .auth-form-container {
+  background: #1a1a2e;
+  color: #e4e4e4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.auth-form-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2f3640;
+}
+
+.dark-mode .auth-form-container h2 {
+  color: #e4e4e4;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #555;
+}
+
+.dark-mode .form-group label {
+  color: #bdc3c7;
+}
+
+.form-group input {
+  padding: 14px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border 0.3s ease;
+}
+
+.dark-mode .form-group input {
+  background: #2c3e50;
+  border-color: #4a6484;
+  color: #e4e4e4;
+}
+
+.form-group input:focus {
+  border-color: #00a8ff;
+  outline: none;
+}
+
+.dark-mode .form-group input:focus {
+  border-color: #3498db;
+}
+
+.auth-button {
+  padding: 14px;
+  background-color: #00a8ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.dark-mode .auth-button {
+  background-color: #3498db;
+}
+
+.auth-button:hover {
+  background-color: #0097e6;
+  transform: translateY(-2px);
+}
+
+.dark-mode .auth-button:hover {
+  background-color: #2980b9;
+}
+
+.auth-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dark-mode .auth-button:disabled {
+  background-color: #7f8c8d;
+}
+
+.auth-error {
+  background-color: #ffebee;
+  color: #e53935;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.dark-mode .auth-error {
+  background-color: rgba(229, 57, 53, 0.2);
+  color: #ff6b6b;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+}
+
+.auth-link a {
+  color: #00a8ff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .auth-link a {
+  color: #3498db;
+}
+
+.auth-link a:hover {
+  color: #0097e6;
+  text-decoration: underline;
+}
+
+.dark-mode .auth-link a:hover {
+  color: #2980b9;
+}
+
+/* Update Header styles with user controls */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Update Header styles for horizontal user menu */
+.user-menu {
+  display: flex;
+  flex-direction: row; /* Change back to row layout */
+  align-items: center;
+  gap: 8px; /* Gap between username icon and logout button */
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dark-mode .user-menu {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.username-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #2f3640;
+}
+
+.dark-mode .username-icon {
+  color: #e4e4e4;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+  transform: scale(1.1);
 }

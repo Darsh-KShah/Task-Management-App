@@ -1,31 +1,85 @@
 import express from 'express';
 import Task from '../models/Task.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// GET all
+// Apply auth middleware to all routes
+router.use(protect);
+
+// GET all tasks for logged in user
 router.get('/', async (req, res) => {
-  const tasks = await Task.find();
-  res.json(tasks);
+  try {
+    const tasks = await Task.find({ user: req.user._id });
+    res.json(tasks);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
-// POST create
+// POST create task
 router.post('/', async (req, res) => {
-  const task = new Task(req.body);
-  await task.save();
-  res.json(task);
+  try {
+    const task = new Task({
+      ...req.body,
+      user: req.user._id
+    });
+    await task.save();
+    res.status(201).json(task);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
-// PUT update
+// PUT update task
 router.put('/:id', async (req, res) => {
-  const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(task);
+  try {
+    const task = await Task.findById(req.params.id);
+    
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    
+    // Check if task belongs to user
+    if (task.user.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+    
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true }
+    );
+    
+    res.json(updatedTask);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
-// DELETE
+// DELETE task
 router.delete('/:id', async (req, res) => {
-  await Task.findByIdAndDelete(req.params.id);
-  res.json({ success: true });
+  try {
+    const task = await Task.findById(req.params.id);
+    
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    
+    // Check if task belongs to user
+    if (task.user.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+    
+    await Task.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 export default router;
