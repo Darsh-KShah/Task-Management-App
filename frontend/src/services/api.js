@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_URL = '/api/tasks';
+// Use environment variable if available, otherwise fall back to development proxy
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+
+const API_URL = `${API_BASE_URL}/tasks`;
 
 // Setup axios interceptor for token handling
 axios.interceptors.request.use(
@@ -67,7 +70,7 @@ export const deleteTask = async (id) => {
 };
 
 // Auth related API calls
-const AUTH_URL = '/api/users';
+const AUTH_URL = `${API_BASE_URL}/users`;
 
 export const registerUser = async (userData) => {
   try {
