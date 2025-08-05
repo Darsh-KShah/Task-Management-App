@@ -91,6 +91,8 @@ input,
   transition: all 0.3s ease;
   color: #2f3640; /* Fix input text color in light mode */
   background: #ffffff;
+  height: 51px; /* Add explicit height */
+  box-sizing: border-box; /* Add this for consistent sizing */
 }
 
 .dark-mode input,
@@ -150,6 +152,7 @@ input:focus,
   min-width: 120px;
   transition: all 0.3s ease;
   padding-right: 32px; /* Make room for the icon */
+  box-sizing: border-box; /* Add this for consistent sizing */
 }
 
 .dark-mode .priority-dropdown,
@@ -181,6 +184,8 @@ input:focus,
   border-radius: 0 10px 10px 0;
   cursor: pointer;
   transition: all 0.3s ease;
+  height: 51px; /* Add explicit height to match input */
+  box-sizing: border-box; /* Add this for consistent sizing */
 }
 
 .dark-mode .add-btn {
@@ -824,4 +829,513 @@ input:focus,
 .logout-btn:hover {
   background-color: rgba(231, 76, 60, 0.1);
   transform: scale(1.1);
+}
+
+
+/* Medium Desktop - 992px to 1199px */
+@media (max-width: 1199px) {
+  .app {
+    width: 450px;
+    padding: 25px 35px;
+  }
+}
+
+/* Small Desktop/Large Tablet - 768px to 991px */
+@media (max-width: 991px) {
+  body {
+    padding: 20px;
+    align-items: center;
+  }
+  
+  .app {
+    width: 90%;
+    max-width: 600px;
+    margin-top: 20px;
+    padding: 25px 30px;
+  }
+  
+  h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+  
+  .filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .status-filters,
+  .priority-filters {
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .status-filters span,
+  .priority-filters span {
+    margin-right: 2px;
+    font-size: 14px;
+  }
+  
+  .filters button {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}
+
+/* Tablet Portrait - 576px to 767px */
+@media (max-width: 767px) {
+  body {
+    padding: 15px;
+    margin: 0;
+  }
+  
+  .app {
+    width: 100%;
+    max-width: none;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 12px;
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .app-header {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .user-menu {
+    flex: none;
+    justify-content: center;
+    max-width: 120px;
+    min-width: 100px;
+    padding: 6px 8px;
+  }
+  
+  .todo-input {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  input {
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+    height: 51px;
+  }
+  
+  .select-wrapper {
+    width: 100%;
+  }
+  
+  .priority-dropdown {
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    height: 51px;
+    padding: 14px 32px 14px 18px;
+    box-sizing: border-box;
+  }
+  
+  .add-btn {
+    border-radius: 10px;
+    padding: 14px;
+    width: 100%;
+    height: 51px;
+    box-sizing: border-box;
+  }
+  
+  .filters {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .status-filters,
+  .priority-filters {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .status-filters span,
+  .priority-filters span {
+    width: 100%;
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .filters button {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-width: 60px;
+  }
+  
+  .todo-item {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+  }
+  
+  .left-content {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .right-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .edit-mode {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .edit-input {
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .priority-edit-dropdown {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .edit-actions {
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .todo-list {
+    max-height: 50vh;
+  }
+  
+  .celebration-message {
+    font-size: 20px;
+    padding: 14px 25px;
+    margin: 0 20px;
+  }
+}
+
+/* Mobile Landscape - 481px to 575px */
+@media (max-width: 575px) {
+  .app {
+    padding: 18px;
+  }
+  
+  h1 {
+    font-size: 26px;
+    margin-bottom: 18px;
+  }
+  
+  .filters button {
+    padding: 6px 8px;
+    font-size: 12px;
+    min-width: 50px;
+  }
+  
+  .status-filters,
+  .priority-filters {
+    gap: 4px;
+  }
+  
+  .todo-item {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .edit-btn,
+  .delete-btn,
+  .save-btn,
+  .cancel-btn {
+    font-size: 18px;
+    padding: 8px;
+  }
+}
+
+/* Mobile Portrait - 320px to 480px */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .app {
+    padding: 15px;
+    border-radius: 10px;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .app-header {
+    gap: 10px;
+  }
+  
+  .theme-toggle {
+    font-size: 20px;
+    padding: 6px;
+  }
+  
+  .user-menu {
+    padding: 6px 10px;
+    font-size: 12px;
+    max-width: 100px;
+    min-width: 90px;
+    flex: none;
+  }
+  
+  input,
+  .priority-dropdown,
+  .add-btn {
+    padding: 12px;
+    font-size: 16px;
+    height: 48px;
+    box-sizing: border-box;
+  }
+  
+  .priority-dropdown {
+    padding: 12px 28px 12px 16px;
+  }
+  
+  .filters {
+    gap: 8px;
+  }
+  
+  .status-filters span,
+  .priority-filters span {
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+  
+  .filters button {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-width: 45px;
+  }
+  
+  .todo-item {
+    padding: 12px;
+    font-size: 15px;
+  }
+  
+  .todo-text {
+    font-size: 15px;
+  }
+  
+  .checkbox-wrapper {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .checkmark {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .right-actions {
+    gap: 12px;
+  }
+  
+  .edit-btn,
+  .delete-btn,
+  .save-btn,
+  .cancel-btn {
+    font-size: 16px;
+    padding: 6px;
+  }
+  
+  .celebration-message {
+    font-size: 18px;
+    padding: 12px 20px;
+    margin: 0 15px;
+  }
+  
+  .todo-list {
+    max-height: 45vh;
+  }
+  
+  .empty-state {
+    padding: 20px;
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Mobile - Below 320px */
+@media (max-width: 319px) {
+  .app {
+    padding: 12px;
+  }
+  
+  h1 {
+    font-size: 22px;
+  }
+  
+  .filters button {
+    padding: 4px 6px;
+    font-size: 10px;
+    min-width: 40px;
+  }
+  
+  .todo-item {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .celebration-message {
+    font-size: 16px;
+    padding: 10px 15px;
+    margin: 0 10px;
+  }
+}
+
+/* Authentication Pages Responsive */
+@media (max-width: 767px) {
+  .auth-container {
+    padding: 15px;
+  }
+  
+  .auth-form-container {
+    padding: 30px 25px;
+    max-width: none;
+    width: 100%;
+  }
+  
+  .auth-form-container h2 {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+  
+  .form-group input {
+    padding: 12px;
+    font-size: 15px;
+  }
+  
+  .auth-button {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 10px;
+  }
+  
+  .auth-form-container {
+    padding: 25px 20px;
+  }
+  
+  .auth-form-container h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    gap: 6px;
+  }
+  
+  .form-group label {
+    font-size: 13px;
+  }
+  
+  .form-group input {
+    padding: 11px;
+    font-size: 14px;
+  }
+  
+  .auth-button {
+    padding: 11px;
+    font-size: 14px;
+  }
+  
+  .auth-error {
+    padding: 10px;
+    font-size: 13px;
+  }
+  
+  .auth-link {
+    font-size: 13px;
+    margin-top: 20px;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .app {
+    margin-top: 10px;
+  }
+  
+  .todo-list {
+    max-height: 30vh;
+  }
+  
+  .auth-container {
+    align-items: flex-start;
+    padding-top: 10px;
+  }
+}
+
+/* High DPI/Retina Display Optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .app {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .dark-mode .app {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .todo-item {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .filters button,
+  .edit-btn,
+  .delete-btn,
+  .save-btn,
+  .cancel-btn,
+  .theme-toggle,
+  .logout-btn,
+  .add-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .checkbox-wrapper {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  input,
+  .priority-dropdown {
+    min-height: 44px;
+  }
 }
