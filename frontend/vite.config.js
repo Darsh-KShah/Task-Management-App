@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://to-do-app-c0tg.onrender.com',
         changeOrigin: true,
       }
     }
