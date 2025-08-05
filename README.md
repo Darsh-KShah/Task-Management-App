@@ -1,9 +1,9 @@
-# 📝 To-Do List App
+# 📝 Task Management App
 
 A full-stack MERN-based responsive task management app with user auth, priorities management, filtering, and light/dark theme support.
 
 ## 🌐 Live Demo
-🔗 [View Live App](to-do-app-rho-dun.vercel.app)
+🔗 [View Live App](https://task-management-app-rho-dun.vercel.app)
 
 ## 📋 Features
 
