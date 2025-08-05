@@ -1,11 +1,9 @@
 import axios from 'axios';
 
-// Use environment variable if available, otherwise fall back to development proxy
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const API_URL = `${API_BASE_URL}/tasks`;
 
-// Setup axios interceptor for token handling
 axios.interceptors.request.use(
   (config) => {
     const user = JSON.parse(localStorage.getItem('user'));
