@@ -769,6 +769,109 @@ input:focus,
   color: #2980b9;
 }
 
+/* Server Startup Loading Overlay */
+.server-startup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  z-index: 1000;
+}
+
+.dark-mode .server-startup-overlay {
+  background: rgba(26, 26, 46, 0.95);
+}
+
+.server-startup-content {
+  text-align: center;
+  padding: 30px 20px;
+  max-width: 300px;
+}
+
+.startup-spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 20px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #00a8ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.dark-mode .startup-spinner {
+  border-color: #4a6484;
+  border-top-color: #3498db;
+}
+
+.server-startup-content h3 {
+  color: #2f3640;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.dark-mode .server-startup-content h3 {
+  color: #e4e4e4;
+}
+
+.server-startup-content p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.dark-mode .server-startup-content p {
+  color: #bdc3c7;
+}
+
+.startup-tips {
+  background: rgba(0, 168, 255, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 3px solid #00a8ff;
+}
+
+.dark-mode .startup-tips {
+  background: rgba(52, 152, 219, 0.15);
+  border-left-color: #3498db;
+}
+
+.startup-tips small {
+  color: #0077c2;
+  font-size: 12px;
+  font-weight: 500;
+  display: block;
+}
+
+.dark-mode .startup-tips small {
+  color: #3498db;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Enhanced Auth Button States */
+.auth-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.7;
+}
+
+.dark-mode .auth-button:disabled {
+  background-color: #7f8c8d;
+}
+
 /* Update Header styles with user controls */
 .app-header {
   display: flex;
@@ -1278,6 +1381,36 @@ input:focus,
   .auth-link {
     font-size: 13px;
     margin-top: 20px;
+  }
+  
+  /* Mobile Server Startup Overlay */
+  .server-startup-content {
+    padding: 25px 15px;
+    max-width: 280px;
+  }
+  
+  .startup-spinner {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 15px;
+  }
+  
+  .server-startup-content h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  
+  .server-startup-content p {
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  
+  .startup-tips {
+    padding: 8px;
+  }
+  
+  .startup-tips small {
+    font-size: 11px;
   }
 }
 

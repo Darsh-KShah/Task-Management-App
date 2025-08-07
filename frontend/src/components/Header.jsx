@@ -15,7 +15,7 @@ function Header() {
 
   return (
     <div className="app-header">
-      <h1>To-Do List 📝</h1>
+      <h1>TaskBoard 📝</h1>
       <div className="header-controls">
         {/* Theme toggle button comes first now */}
         <button 

@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [serverStarting, setServerStarting] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -21,9 +22,20 @@ function Login() {
     try {
       setError('');
       setLoading(true);
+      
+      // Start server startup detection after 2 seconds
+      const serverStartupTimer = setTimeout(() => {
+        setServerStarting(true);
+      }, 2000);
+      
       await login(email, password);
+      
+      // Clear the timer if login succeeds quickly
+      clearTimeout(serverStartupTimer);
+      setServerStarting(false);
       navigate('/');
     } catch (err) {
+      setServerStarting(false);
       setError(err.response?.data?.message || 'Failed to login');
     } finally {
       setLoading(false);
@@ -41,6 +53,28 @@ function Login() {
         <h2>Login to your Account</h2>
         
         {error && <div className="auth-error">{error}</div>}
+        
+        {/* Server Startup Loading Overlay */}
+        <AnimatePresence>
+          {serverStarting && (
+            <motion.div
+              className="server-startup-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="server-startup-content">
+                <div className="startup-spinner"></div>
+                <h3>Starting up the server...</h3>
+                <p>This may take a few seconds if the server was idle</p>
+                <div className="startup-tips">
+                  <small>💡 Render servers sleep after inactivity to save resources</small>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
@@ -74,7 +108,7 @@ function Login() {
             className="auth-button"
             disabled={loading}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? (serverStarting ? 'Waking up server...' : 'Logging in...') : 'Login'}
           </button>
         </form>
         
