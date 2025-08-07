@@ -10,6 +10,14 @@ export default defineConfig({
         target: 'https://to-do-app-c0tg.onrender.com',
         changeOrigin: true,
       }
+    },
+    historyApiFallback: true
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: './index.html'
+      }
     }
   }
 })
